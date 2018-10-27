@@ -203,7 +203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_JumpForce: 800
-  m_AirJumps: 1
+  m_AirJumps: 0
   m_FallGravity: 4
   m_MovementSmoothing: 0.05
   m_GroundLayer:
@@ -212,10 +212,11 @@ MonoBehaviour:
   m_GroundCheck: {fileID: 4456209078036412}
   m_HorizontalCheck: {fileID: 0}
   m_AirControl: 1
-  m_RigidBody2D: {fileID: 0}
+  m_JumpForceOnEnemies: 20
   m_FacingRight: 1
   m_Damaged: 0
   m_Immune: 0
+  m_RigidBody2D: {fileID: 0}
 --- !u!212 &212563568985682624
 SpriteRenderer:
   m_ObjectHideFlags: 1

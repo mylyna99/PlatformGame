@@ -11,7 +11,7 @@ public class CharacterController2D : MonoBehaviour {
     [SerializeField] private LayerMask m_GroundLayer;
     [SerializeField] private Transform m_GroundCheck;
     [SerializeField] private Transform m_HorizontalCheck;
-    [SerializeField] private bool m_AirControl = false;
+    [SerializeField] private bool m_AirControl = true;
     [SerializeField] private float m_JumpForceOnEnemies = 20;
 
     private bool m_Grounded;
@@ -51,9 +51,12 @@ public class CharacterController2D : MonoBehaviour {
         }
     }
 
-    public void Move(float move, bool jump)
+    public void Move(float move, bool jump, bool on_beat)
     {
-
+        if (jump)
+        {
+            print("On Beat?" + on_beat);
+        }
 
         if (m_Grounded || m_AirControl)
         {
@@ -102,6 +105,8 @@ public class CharacterController2D : MonoBehaviour {
             m_RigidBody2D.AddForce(new Vector2(0f, m_JumpForce));
             m_AirJumpsLeft--;
         }
+
+
 
     }
 
