@@ -7,7 +7,7 @@ public class MainMenu : MonoBehaviour {
 
 	public void PlayGame()
 	{
-		SceneManager.LoadScene("SampleScene"); //change level to our game
+		SceneManager.LoadScene("Jump_Scene"); //change level to our game
 	}
 
 	public void QuitGame()
