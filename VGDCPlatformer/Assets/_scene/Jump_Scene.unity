@@ -512,6 +512,29 @@ MonoBehaviour:
   target: {fileID: 1974303543}
   smoothSpeed: 0.125
   offset: {x: 5, y: 2, z: -10}
+--- !u!1 &1218376255 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1599275205302418, guid: af2f1a5cb870ad147945f571b2e6ca31,
+    type: 2}
+  m_PrefabInternal: {fileID: 686692871}
+--- !u!95 &1218376256
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1218376255}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 80a17540a304dc64e829fcb2875e594c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!4 &1974303543 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4471523217382310, guid: af2f1a5cb870ad147945f571b2e6ca31,
