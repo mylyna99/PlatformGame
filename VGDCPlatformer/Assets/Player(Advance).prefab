@@ -199,10 +199,11 @@ MonoBehaviour:
   m_GroundCheck: {fileID: 4270170779975922}
   m_HorizontalCheck: {fileID: 0}
   m_AirControl: 1
-  m_RigidBody2D: {fileID: 0}
+  m_JumpForceOnEnemies: 20
   m_FacingRight: 1
   m_Damaged: 0
   m_Immune: 0
+  m_RigidBody2D: {fileID: 0}
 --- !u!114 &114964385400122752
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -249,7 +250,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1890391441
-  m_SortingLayer: 1
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 082984ec0fd0d8048a306ef7c9f42aa6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
