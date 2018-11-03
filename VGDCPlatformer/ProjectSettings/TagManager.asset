@@ -9,7 +9,8 @@ TagManager:
   - floor
   - environment
   - checkPoint
-  - shadow
+  - jumps
+  - slides
   layers:
   - Default
   - TransparentFX

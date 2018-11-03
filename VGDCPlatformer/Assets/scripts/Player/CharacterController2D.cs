@@ -14,6 +14,7 @@ public class CharacterController2D : MonoBehaviour {
     [SerializeField] private bool m_AirControl = true;
     [SerializeField] private float m_JumpForceOnEnemies = 20;
 
+    private bool m_WasSliding = false;
     private bool m_Grounded;
     public bool m_FacingRight = true;
     private bool m_OnJumpPad = false;
@@ -51,11 +52,25 @@ public class CharacterController2D : MonoBehaviour {
         }
     }
 
-    public void Move(float move, bool jump, bool on_beat)
+    public void Move(float move, bool jump, bool slide, bool on_beat)
     {
         if (jump)
         {
-            print("On Beat?" + on_beat);
+            print("Jump On Beat? " + on_beat);
+        }
+
+        if (slide && !m_WasSliding)
+        {
+            m_WasSliding = true;
+            print("Starting slide");
+            print("Start slide on beat? " + on_beat);
+        }
+
+        if (m_WasSliding && !slide)
+        {
+            m_WasSliding = false;
+            print("Stop slide");
+            print("End slide on beat? " + on_beat);
         }
 
         if (m_Grounded || m_AirControl)
@@ -96,8 +111,6 @@ public class CharacterController2D : MonoBehaviour {
             m_RigidBody2D.AddForce(new Vector2(m_RigidBody2D.velocity.x, m_JumpForce));
             
         }
-
-        
         //air Jump
         else if (jump && m_AirJumpsLeft > 0)
         {
@@ -106,8 +119,7 @@ public class CharacterController2D : MonoBehaviour {
             m_AirJumpsLeft--;
         }
 
-
-
+        
     }
 
     void JumpGravity(bool jump)

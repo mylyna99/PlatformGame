@@ -8,8 +8,10 @@ public class PlayerMove : MonoBehaviour {
     [SerializeField] private float runSpeed;
     float horizontalMove = 0f;
     bool jump = false;
+    bool slide = false;
     public CharacterController2D controller;
-    private Queue<GameObject> shadows_q;
+    private Queue<GameObject> jump_shadows;
+    private Queue<GameObject> slide_shadows;
     private GameObject shadow;
     private Renderer player_rend;
 
@@ -17,13 +19,20 @@ public class PlayerMove : MonoBehaviour {
     {
         player_rend = GetComponent<Renderer>(); 
 
-        GameObject[] shadows_list = GameObject.FindGameObjectsWithTag("shadow");
-        Array.Sort(shadows_list, delegate (GameObject shadow1, GameObject shadow2)
+        GameObject[] l_jumpshadows = GameObject.FindGameObjectsWithTag("jumps");
+        Array.Sort(l_jumpshadows, delegate (GameObject shadow1, GameObject shadow2)
         {
             return (int)(shadow1.transform.position.x - shadow2.transform.position.x);
         });
 
-        shadows_q = new Queue<GameObject>(shadows_list);
+        GameObject[] l_slideshadows = GameObject.FindGameObjectsWithTag("slides");
+        Array.Sort(l_slideshadows, delegate (GameObject shadow1, GameObject shadow2)
+        {
+            return (int)(shadow1.transform.position.x - shadow2.transform.position.x);
+        });
+
+        jump_shadows = new Queue<GameObject>(l_jumpshadows);
+        slide_shadows = new Queue<GameObject>(l_slideshadows);
     }
 
     // Update is called once per frame
@@ -33,10 +42,28 @@ public class PlayerMove : MonoBehaviour {
         if (Input.GetButtonDown("Jump"))
         {
             jump = true;
-            if (peekNextShadow().transform.position.x - gameObject.transform.position.x <= 2f)
+            if (peekNextJumpShadow().transform.position.x - gameObject.transform.position.x <= 2f)
             {
-                shadow = findNextShadow();
+                shadow = findNextJumpShadow();
                 // print("Finding next shadow: " + shadow);
+            }
+        }
+
+        if (Input.GetButtonDown("Right"))
+        {
+            slide = true;
+            if (peekNextSlideShadow().transform.position.x - gameObject.transform.position.x <= 2f)
+            {
+                shadow = findNextSlideShadow();
+            }
+        }
+
+        if (Input.GetButtonUp("Right"))
+        {
+            slide = false;
+            if (peekNextSlideShadow().transform.position.x - gameObject.transform.position.x <= 2f)
+            {
+                shadow = findNextSlideShadow();
             }
         }
     }
@@ -51,17 +78,27 @@ public class PlayerMove : MonoBehaviour {
             error_buffery = Math.Abs(gameObject.transform.position.y - shadow.transform.position.y) / player_rend.bounds.size.y;
         }
         
-        controller.Move(runSpeed * Time.fixedDeltaTime, jump, (error_bufferx <= 0.5f && error_buffery <= 0.5f));
+        controller.Move(runSpeed * Time.fixedDeltaTime, jump, slide, (error_bufferx <= 0.5f && error_buffery <= 0.5f));
         jump = false;
     }
 
-    private GameObject peekNextShadow()
+    private GameObject peekNextJumpShadow()
     {
-        return shadows_q.Peek();
+        return jump_shadows.Peek();
     }
 
-    private GameObject findNextShadow()
+    private GameObject findNextJumpShadow()
     {
-        return shadows_q.Dequeue();
+        return jump_shadows.Dequeue();
+    }
+
+    private GameObject peekNextSlideShadow()
+    {
+        return slide_shadows.Peek();
+    }
+
+    private GameObject findNextSlideShadow()
+    {
+        return slide_shadows.Dequeue();
     }
 }
