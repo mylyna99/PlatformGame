@@ -5,8 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class SwitchLevels : MonoBehaviour {
 
-	void OpenLevel(Collider other)
+	public string levelToLoad;
+	
+	void OpenLevel(Collider2D other)
 	{
-		SceneManager.LoadScene("FallenLevelScene"); //change level to our game
+		Debug.Log("SHOULD LOAD LEVEL");
+		if (other.CompareTag("Player"))
+		{
+			SceneManager.LoadScene(levelToLoad); //change level to our game
+		}
 	}
 }

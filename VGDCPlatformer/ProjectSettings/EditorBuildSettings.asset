@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_scene/Jump_Scene.unity
     guid: b6df894329827e049b2710c5319547cd
+  - enabled: 1
+    path: Assets/_scene/FallenLevelScene.unity
+    guid: cb74b9834b6f11e43ae2ad890c3ba06e
   m_configObjects: {}
