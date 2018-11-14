@@ -88,8 +88,9 @@ public class PlayerMove : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        float error_bufferx = 0f;
-        float error_buffery = 0f;
+        // set large error at the beginning of the game, to prevent faulty jumping on beat
+        float error_bufferx = 99f;
+        float error_buffery = 99f;
         if (player_rend != null && shadow != null)
         {
             error_bufferx = Math.Abs(gameObject.transform.position.x - shadow.transform.position.x) / player_rend.bounds.size.x;
