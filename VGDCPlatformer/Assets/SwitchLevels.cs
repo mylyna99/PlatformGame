@@ -7,11 +7,11 @@ public class SwitchLevels : MonoBehaviour {
 
 	public string levelToLoad;
 	
-	void OpenLevel(Collider2D other)
+	void OnTriggerEnter2D(Collider2D other)
 	{
-		Debug.Log("SHOULD LOAD LEVEL");
 		if (other.CompareTag("Player"))
 		{
+			Debug.Log("PLAYER TOUCHED: SHOULD LOAD LEVEL");
 			SceneManager.LoadScene(levelToLoad); //change level to our game
 		}
 	}
