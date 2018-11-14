@@ -26,7 +26,6 @@ public class CharacterController2D : MonoBehaviour {
     [HideInInspector] public Rigidbody2D m_RigidBody2D;
     private Animator animator;
 
-
     void Awake()
     {
 
@@ -52,11 +51,16 @@ public class CharacterController2D : MonoBehaviour {
         }
     }
 
-    public void Move(float move, bool jump, bool slide, bool on_beat)
+    public void Move(float move, bool jump, bool slide, bool duck, bool on_beat)
     {
         if (jump)
         {
             print("Jump On Beat? " + on_beat);
+        }
+
+        if (duck)
+        {
+            print("Duck On Beat? " + on_beat);
         }
 
         if (slide && !m_WasSliding)

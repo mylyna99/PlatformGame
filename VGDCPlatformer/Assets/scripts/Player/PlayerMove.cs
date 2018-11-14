@@ -9,9 +9,11 @@ public class PlayerMove : MonoBehaviour {
     float horizontalMove = 0f;
     bool jump = false;
     bool slide = false;
+    bool duck = false;
     public CharacterController2D controller;
     private Queue<GameObject> jump_shadows;
     private Queue<GameObject> slide_shadows;
+    private Queue<GameObject> duck_shadows;
     private GameObject shadow;
     private Renderer player_rend;
 
@@ -31,8 +33,15 @@ public class PlayerMove : MonoBehaviour {
             return (int)(shadow1.transform.position.x - shadow2.transform.position.x);
         });
 
+        GameObject[] l_duckshadows = GameObject.FindGameObjectsWithTag("ducks");
+        Array.Sort(l_duckshadows, delegate (GameObject shadow1, GameObject shadow2)
+        {
+            return (int)(shadow1.transform.position.x - shadow2.transform.position.x);
+        });
+
         jump_shadows = new Queue<GameObject>(l_jumpshadows);
         slide_shadows = new Queue<GameObject>(l_slideshadows);
+        duck_shadows = new Queue<GameObject>(l_duckshadows);
     }
 
     // Update is called once per frame
@@ -66,6 +75,15 @@ public class PlayerMove : MonoBehaviour {
                 shadow = findNextSlideShadow();
             }
         }
+
+        if (Input.GetButtonDown("Down"))
+        {
+            duck = true;
+            if (peekNextDuckShadow().transform.position.x - gameObject.transform.position.x <= 2f)
+            {
+                shadow = findNextDuckShadow();
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -78,8 +96,9 @@ public class PlayerMove : MonoBehaviour {
             error_buffery = Math.Abs(gameObject.transform.position.y - shadow.transform.position.y) / player_rend.bounds.size.y;
         }
         
-        controller.Move(runSpeed * Time.fixedDeltaTime, jump, slide, (error_bufferx <= 0.5f && error_buffery <= 0.5f));
+        controller.Move(runSpeed * Time.fixedDeltaTime, jump, slide, duck, (error_bufferx <= 0.5f && error_buffery <= 0.5f));
         jump = false;
+        duck = false;
     }
 
     private GameObject peekNextJumpShadow()
@@ -100,5 +119,15 @@ public class PlayerMove : MonoBehaviour {
     private GameObject findNextSlideShadow()
     {
         return slide_shadows.Dequeue();
+    }
+
+    private GameObject peekNextDuckShadow()
+    {
+        return duck_shadows.Peek();
+    }
+
+    private GameObject findNextDuckShadow()
+    {
+        return duck_shadows.Dequeue();
     }
 }
