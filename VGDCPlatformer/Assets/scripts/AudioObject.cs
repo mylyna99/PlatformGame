@@ -10,7 +10,8 @@ public class AudioObject : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         MusicSource.clip = MusicClip;
-        MusicSource.Play();
+        MusicSource.time = 33;
+        MusicSource.Play(0);
 	}
 	
 	// Update is called once per frame
