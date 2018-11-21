@@ -26,11 +26,13 @@ public class CharacterController2D : MonoBehaviour {
     [HideInInspector] public Rigidbody2D m_RigidBody2D;
     private Animator animator;
 
+    private PlayerHealth health;
+
     void Awake()
     {
-
         m_RigidBody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        health = GetComponent<PlayerHealth>();
     }
 
     void FixedUpdate()
@@ -56,11 +58,19 @@ public class CharacterController2D : MonoBehaviour {
         if (jump)
         {
             print("Jump On Beat? " + on_beat);
+            if (!on_beat)
+            {
+                health.TakeDamage();
+            }
         }
 
         if (duck)
         {
             print("Duck On Beat? " + on_beat);
+            if (!on_beat)
+            {
+                health.TakeDamage();
+            }
         }
 
         if (slide && !m_WasSliding)
@@ -68,6 +78,10 @@ public class CharacterController2D : MonoBehaviour {
             m_WasSliding = true;
             print("Starting slide");
             print("Start slide on beat? " + on_beat);
+            if (!on_beat)
+            {
+                health.TakeDamage();
+            }
         }
 
         if (m_WasSliding && !slide)
@@ -75,6 +89,10 @@ public class CharacterController2D : MonoBehaviour {
             m_WasSliding = false;
             print("Stop slide");
             print("End slide on beat? " + on_beat);
+            if (!on_beat)
+            {
+                health.TakeDamage();
+            }
         }
 
         if (m_Grounded || m_AirControl)

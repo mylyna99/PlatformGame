@@ -47,6 +47,8 @@ public class PlayerMove : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        // BUG: no health lost when player does not click any buttons
+
         horizontalMove = runSpeed;
         if (Input.GetButtonDown("Jump"))
         {

@@ -20,7 +20,7 @@ public class DamageOnTouch : MonoBehaviour {
         {
             //to kill enemy, we call enemy script Die() function to kill object
             TheEnemy script = collision.gameObject.GetComponentInParent<TheEnemy>();
-            script.Die();
+            // script.Die();
         }
     }
 }

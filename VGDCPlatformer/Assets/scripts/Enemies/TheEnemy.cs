@@ -1,46 +1,30 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class TheEnemy : MonoBehaviour {
 
     //====== Move Logic ============
-	public bool moveRight = false; //checks if the enemy moves right or left
-	public float movSpeed = 2.5f; //movement of the enemy
-	
-    //====== Patrol Positions=========
-    public Transform positionA;
-    public Transform positionB;
+	public bool moveRight = true; //checks if the enemy moves right or left
+	public float movSpeed = 40f; //movement of the enemy
 
-    public GameObject parent;
+    public GameObject player;
+    [HideInInspector] public Rigidbody2D m_RigidBody2D;
+    private PlayerHealth health;
 
-	
-	// Update is called once per frame
-	void Update () {
-		
-		if (moveRight == true)
-		{
-			transform.Translate(Vector2.right * movSpeed * Time.deltaTime);
-		}
+    private void Start()
+    {
+        health = player.GetComponent<PlayerHealth>();
+        m_RigidBody2D = gameObject.GetComponent<Rigidbody2D>();
+        gameObject.transform.position = new Vector2(player.transform.position.x - 2*health.startHealth, player.transform.position.y);
+    }
 
-		else
-		{
-			transform.Translate(Vector2.left * movSpeed * Time.deltaTime);
-		}
-
-		//enemy moves until reaching a boundary, then we will flip the gameObject
-		if (transform.position.x >= positionA.position.x ||
-		transform.position.x < positionB.position.x) 
-		{
-			Flip();
-		}
-	}
-
-    //Destroys the GameObject
-	public void Die()
-	{
-		Destroy(parent);
-	}
+    // Update is called once per frame
+    void Update () {
+        Vector3 targetVelocity = new Vector2(movSpeed * Time.fixedDeltaTime * 10f, m_RigidBody2D.velocity.y);
+        m_RigidBody2D.velocity = targetVelocity;
+    }
 
     //flips the entire gameObject and its components
     void Flip()
@@ -49,5 +33,10 @@ public class TheEnemy : MonoBehaviour {
         Vector2 localScale = gameObject.transform.localScale;
         localScale.x *= -1;
         transform.localScale = localScale;
+    }
+
+    public void MoveCloser()
+    {
+        gameObject.transform.position = new Vector2(player.transform.position.x - 2 * health.health, player.transform.position.y);
     }
 }

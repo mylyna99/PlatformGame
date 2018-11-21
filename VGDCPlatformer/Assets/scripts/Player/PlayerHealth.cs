@@ -7,16 +7,24 @@ public class PlayerHealth : MonoBehaviour {
 
 	public int startHealth = 1; //the amount of health the player is suppose to start with
 	public int health; //the amount of health the player has, at 0 player dies
-	//public float playerSpawnX = -17.3f; //where the player spawns at start or death, X coord
-	//public float playerSpawnY = -1.9f; //where the player spawns at start or death, Y coord
 
-    public Transform SpawnPoint;
+    //public float playerSpawnX = -17.3f; //where the player spawns at start or death, X coord
+    //public float playerSpawnY = -1.9f; //where the player spawns at start or death, Y coord
+
+    //public Transform SpawnPoint;
+
+    public GameObject monster;
+    private TheEnemy monster_script;
+    public GameObject game_over_controller;
+    private GameOver gameOver;
     
 	//Use this for initialization
 	void Start () {
 		health = startHealth;
-        GameManager.UpdateSpawn(SpawnPoint);
-        gameObject.transform.position = GameManager.spawnPoint.position;
+        monster_script = monster.GetComponent<TheEnemy>();
+        gameOver = game_over_controller.GetComponent<GameOver>();
+        //GameManager.UpdateSpawn(SpawnPoint);
+        //gameObject.transform.position = GameManager.spawnPoint.position;
 	}
 	
 	
@@ -27,7 +35,7 @@ public class PlayerHealth : MonoBehaviour {
 		{
 			//to kill enemy, we tell the enemy script
 			TheEnemy script = collide.gameObject.GetComponentInParent<TheEnemy>();
-			script.Die();
+			// script.Die();
 		}
 
 		if (collide.gameObject.tag == "hitbox")
@@ -37,7 +45,7 @@ public class PlayerHealth : MonoBehaviour {
 
         if(collide.gameObject.tag == "checkPoint")
         {
-            SpawnPoint = collide.transform;
+            //SpawnPoint = collide.transform;
             GameManager.UpdateSpawn(collide.transform);
         }
 	}
@@ -48,13 +56,14 @@ public class PlayerHealth : MonoBehaviour {
 		if (health <= 0)
 		{
             //restarts level
-            SceneManager.LoadScene("SampleScene");
-            
+            // SceneManager.LoadScene("SampleScene");
+            gameOver.GameOverMenu();
 		}
 	}
 
 	public void TakeDamage(){
 		health--;
+        monster_script.MoveCloser();
 	}
 
 }
