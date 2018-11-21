@@ -55,6 +55,7 @@ public class CharacterController2D : MonoBehaviour {
     {
         if (jump)
         {
+            print(gameObject.transform.position);
             print("Jump On Beat? " + on_beat);
         }
 
