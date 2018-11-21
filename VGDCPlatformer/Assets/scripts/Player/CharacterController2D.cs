@@ -80,7 +80,6 @@ public class CharacterController2D : MonoBehaviour {
         if (m_Grounded || m_AirControl)
         {
             Vector3 targetVelocity = new Vector2(move * 10f, m_RigidBody2D.velocity.y);
-
             m_RigidBody2D.velocity = Vector3.SmoothDamp(m_RigidBody2D.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
 
             if (move > 0 && !m_FacingRight)
@@ -113,7 +112,6 @@ public class CharacterController2D : MonoBehaviour {
         {
             m_Grounded = false;
             m_RigidBody2D.AddForce(new Vector2(m_RigidBody2D.velocity.x, m_JumpForce));
-            
         }
         //air Jump
         else if (jump && m_AirJumpsLeft > 0)
@@ -126,9 +124,9 @@ public class CharacterController2D : MonoBehaviour {
         
     }
 
+
     void JumpGravity(bool jump)
     {
-
         if (jump && m_AirJumpsLeft >= 1)
         {
 
@@ -139,6 +137,7 @@ public class CharacterController2D : MonoBehaviour {
         {
             m_RigidBody2D.velocity += Vector2.up * Physics2D.gravity.y * (m_FallGravity - 1) * Time.deltaTime;
         }
+        /*
         else if ((m_RigidBody2D.velocity.y > 0 || m_OnJumpPad) && !Input.GetButton("Jump"))//tab jump
         {
             m_RigidBody2D.velocity += Vector2.up * Physics2D.gravity.y * (m_FallGravity - 1) * Time.deltaTime;
@@ -147,6 +146,7 @@ public class CharacterController2D : MonoBehaviour {
         {
             m_RigidBody2D.velocity += Vector2.up * Physics2D.gravity.y * (m_FallGravity - 1) * Time.deltaTime;
         }
+        */
     }
 
     void Flip()

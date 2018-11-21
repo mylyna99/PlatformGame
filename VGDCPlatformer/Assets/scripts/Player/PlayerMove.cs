@@ -19,7 +19,7 @@ public class PlayerMove : MonoBehaviour {
 
     void Start()
     {
-        player_rend = GetComponent<Renderer>(); 
+        player_rend = GetComponent<Renderer>();
 
         GameObject[] l_jumpshadows = GameObject.FindGameObjectsWithTag("jumps");
         Array.Sort(l_jumpshadows, delegate (GameObject shadow1, GameObject shadow2)
