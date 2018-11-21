@@ -7,6 +7,9 @@ public class GameOver : MonoBehaviour {
 	public GameObject gameOverUI;
 	public static bool isGameOver = false; 
 
+	public AudioClip MusicClip;
+	public AudioSource MusicSource;
+
 	void Update()
 	{
 		gameOverUI.SetActive(isGameOver);
@@ -26,6 +29,8 @@ public class GameOver : MonoBehaviour {
 	{
 		isGameOver = true;
 		Time.timeScale = 0f;
+		MusicSource.clip = MusicClip;
+		MusicSource.Stop();
 	}
 
 

@@ -1255,6 +1255,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameOverUI: {fileID: 1891047563}
+  MusicClip: {fileID: 8300000, guid: 0ca580d77debbc044911b794627c164b, type: 3}
+  MusicSource: {fileID: 172402586}
 --- !u!61 &1720676877
 BoxCollider2D:
   m_ObjectHideFlags: 0
