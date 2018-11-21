@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour {
 
+	//public string levelToLoad;
+
 	public void PlayGame()
 	{
 		SceneManager.LoadScene("Jump_Scene"); //change level to our game
@@ -15,4 +17,5 @@ public class MainMenu : MonoBehaviour {
 		Debug.Log("QUIT");
 		Application.Quit();
 	}
+
 }

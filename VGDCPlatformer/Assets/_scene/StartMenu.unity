@@ -411,6 +411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 534192d13d8bdd84bbb019b8a2fee9cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelToLoad: Jump_Scene
 --- !u!1 &449985106
 GameObject:
   m_ObjectHideFlags: 0
