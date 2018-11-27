@@ -9,11 +9,14 @@ public class PlayerMove : MonoBehaviour {
     float horizontalMove = 0f;
     bool jump = false;
     bool slide = false;
+    bool m_WasSliding = false;
     bool duck = false;
+    bool missed = false;
+    bool prev_passed = true;
+    bool skip = false;
     public CharacterController2D controller;
-    private Queue<GameObject> jump_shadows;
-    private Queue<GameObject> slide_shadows;
-    private Queue<GameObject> duck_shadows;
+    private Queue<GameObject> shadows_q;
+    private Queue<GameObject> shadows;
     private GameObject shadow;
     private Renderer player_rend;
 
@@ -21,116 +24,107 @@ public class PlayerMove : MonoBehaviour {
     {
         player_rend = GetComponent<Renderer>();
 
-        GameObject[] l_jumpshadows = GameObject.FindGameObjectsWithTag("jumps");
-        Array.Sort(l_jumpshadows, delegate (GameObject shadow1, GameObject shadow2)
-        {
-            return (int)(shadow1.transform.position.x - shadow2.transform.position.x);
-        });
+        List<GameObject> l_shadows = new List<GameObject>();
+        l_shadows.AddRange(GameObject.FindGameObjectsWithTag("jumps"));
+        l_shadows.AddRange(GameObject.FindGameObjectsWithTag("slides"));
+        l_shadows.AddRange(GameObject.FindGameObjectsWithTag("ducks"));
 
-        GameObject[] l_slideshadows = GameObject.FindGameObjectsWithTag("slides");
-        Array.Sort(l_slideshadows, delegate (GameObject shadow1, GameObject shadow2)
-        {
-            return (int)(shadow1.transform.position.x - shadow2.transform.position.x);
-        });
+        l_shadows.Sort((x, y) => ((int)(x.transform.position.x - y.transform.position.x)));
 
-        GameObject[] l_duckshadows = GameObject.FindGameObjectsWithTag("ducks");
-        Array.Sort(l_duckshadows, delegate (GameObject shadow1, GameObject shadow2)
-        {
-            return (int)(shadow1.transform.position.x - shadow2.transform.position.x);
-        });
-
-        jump_shadows = new Queue<GameObject>(l_jumpshadows);
-        slide_shadows = new Queue<GameObject>(l_slideshadows);
-        duck_shadows = new Queue<GameObject>(l_duckshadows);
+        shadows = new Queue<GameObject>(l_shadows);
     }
 
     // Update is called once per frame
     void Update()
     {
-        // BUG: no health lost when player does not click any buttons
-
         horizontalMove = runSpeed;
-        if (Input.GetButtonDown("Jump"))
+
+        if (peekNextShadow().transform.position.x - gameObject.transform.position.x <= 2f)
+        {
+            shadow = findNextShadow();
+            print("Finding next shadow: " + shadow);
+        }
+
+        // jump = Input.GetButtonDown("Jump");
+        if (Input.GetButtonDown("Jump") && shadow.tag.Equals("jumps"))
         {
             jump = true;
-            if (peekNextJumpShadow().transform.position.x - gameObject.transform.position.x <= 2f)
-            {
-                shadow = findNextJumpShadow();
-                // print("Finding next shadow: " + shadow);
-            }
         }
 
-        if (Input.GetButtonDown("Right"))
+        if (Input.GetButtonDown("Right") && shadow.tag.Equals("slides"))
         {
             slide = true;
-            if (peekNextSlideShadow().transform.position.x - gameObject.transform.position.x <= 2f)
-            {
-                shadow = findNextSlideShadow();
-            }
+            m_WasSliding = false;
         }
 
-        if (Input.GetButtonUp("Right"))
+        if (Input.GetButtonUp("Right") && shadow.tag.Equals("slides"))
         {
             slide = false;
-            if (peekNextSlideShadow().transform.position.x - gameObject.transform.position.x <= 2f)
-            {
-                shadow = findNextSlideShadow();
-            }
+            m_WasSliding = true;
         }
 
-        if (Input.GetButtonDown("Down"))
+        if (Input.GetButtonDown("Down") && shadow.tag.Equals("ducks"))
         {
             duck = true;
-            if (peekNextDuckShadow().transform.position.x - gameObject.transform.position.x <= 2f)
-            {
-                shadow = findNextDuckShadow();
-            }
         }
     }
 
     private void FixedUpdate()
     {
-        // set large error at the beginning of the game, to prevent faulty jumping on beat
+        // set no error at the beginning of the game, to prevent faulty jumping on beat
         float error_bufferx = 99f;
         float error_buffery = 99f;
         if (player_rend != null && shadow != null)
         {
-            error_bufferx = Math.Abs(gameObject.transform.position.x - shadow.transform.position.x) / player_rend.bounds.size.x;
-            error_buffery = Math.Abs(gameObject.transform.position.y - shadow.transform.position.y) / player_rend.bounds.size.y;
+            float temp_bufferx = gameObject.transform.position.x - shadow.transform.position.x;
+            // if player does not press anything, set as an jump error and not on beat
+            if (!prev_passed && Math.Abs(temp_bufferx - 1f) <= 0.1)
+            {
+                print("missed beat");
+                missed = true;
+                prev_passed = true;
+            }
+            float temp_buffery = gameObject.transform.position.y - shadow.transform.position.y;
+
+            error_bufferx = Math.Abs(temp_bufferx) / player_rend.bounds.size.x;
+            error_buffery = Math.Abs(temp_buffery) / player_rend.bounds.size.y;
         }
-        
-        controller.Move(runSpeed * Time.fixedDeltaTime, jump, slide, duck, (error_bufferx <= 0.5f && error_buffery <= 0.5f));
+
+        bool temp = (error_bufferx <= 0.5f && error_buffery <= 0.5f);
+        if (temp && !skip && !(jump || duck || (slide && !m_WasSliding) || (m_WasSliding && !slide)))
+        {
+            prev_passed = false;
+        }
+
+        if (temp && (jump || duck || (slide && !m_WasSliding) || (m_WasSliding && !slide)))
+        {
+            print("on beat");
+            prev_passed = true;
+            skip = true;
+        }
+        if (!temp && (jump || duck || (slide && !m_WasSliding) || (m_WasSliding && !slide)))
+        {
+            skip = true;
+        }
+        else if (!temp)
+        {
+            skip = false;
+        }
+
+        controller.Move(runSpeed * Time.fixedDeltaTime, jump, slide, duck, missed, temp);
+
         jump = false;
         duck = false;
+        missed = false;
     }
 
-    private GameObject peekNextJumpShadow()
+    private GameObject peekNextShadow()
     {
-        return jump_shadows.Peek();
+        return shadows.Peek();
     }
 
-    private GameObject findNextJumpShadow()
+    private GameObject findNextShadow()
     {
-        return jump_shadows.Dequeue();
-    }
-
-    private GameObject peekNextSlideShadow()
-    {
-        return slide_shadows.Peek();
-    }
-
-    private GameObject findNextSlideShadow()
-    {
-        return slide_shadows.Dequeue();
-    }
-
-    private GameObject peekNextDuckShadow()
-    {
-        return duck_shadows.Peek();
-    }
-
-    private GameObject findNextDuckShadow()
-    {
-        return duck_shadows.Dequeue();
+        return shadows.Dequeue();
     }
 }

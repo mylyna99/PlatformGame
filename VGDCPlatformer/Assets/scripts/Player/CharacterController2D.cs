@@ -53,46 +53,39 @@ public class CharacterController2D : MonoBehaviour {
         }
     }
 
-    public void Move(float move, bool jump, bool slide, bool duck, bool on_beat)
+    public void Move(float move, bool jump, bool slide, bool duck, bool missed, bool on_beat)
     {
-        if (jump)
+        if (missed)
         {
+            health.TakeDamage();
+        }
+
+        if (jump && !on_beat)
+        {
+            health.TakeDamage();
             print("Jump On Beat? " + on_beat);
-            if (!on_beat)
-            {
-                health.TakeDamage();
-            }
         }
 
-        if (duck)
+        if (duck && !on_beat)
         {
+            health.TakeDamage();
             print("Duck On Beat? " + on_beat);
-            if (!on_beat)
-            {
-                health.TakeDamage();
-            }
         }
 
-        if (slide && !m_WasSliding)
+        if (slide && !m_WasSliding && !on_beat)
         {
+            health.TakeDamage();
             m_WasSliding = true;
             print("Starting slide");
             print("Start slide on beat? " + on_beat);
-            if (!on_beat)
-            {
-                health.TakeDamage();
-            }
         }
 
-        if (m_WasSliding && !slide)
+        if (m_WasSliding && !slide && !on_beat)
         {
+            health.TakeDamage();
             m_WasSliding = false;
             print("Stop slide");
             print("End slide on beat? " + on_beat);
-            if (!on_beat)
-            {
-                health.TakeDamage();
-            }
         }
 
         if (m_Grounded || m_AirControl)
