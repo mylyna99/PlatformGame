@@ -32,6 +32,7 @@ public class PlayerMove : MonoBehaviour {
         l_shadows.Sort((x, y) => ((int)(x.transform.position.x - y.transform.position.x)));
 
         shadows = new Queue<GameObject>(l_shadows);
+        shadow = findNextShadow();
     }
 
     // Update is called once per frame
