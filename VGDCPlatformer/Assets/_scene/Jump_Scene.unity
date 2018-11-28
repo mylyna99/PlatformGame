@@ -1580,6 +1580,11 @@ Prefab:
       propertyPath: m_AirJumps
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114489665783623162, guid: 0ac1f374bc16e50438f8941f0f3a8fe6,
+        type: 2}
+      propertyPath: m_JumpForce
+      value: 550
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ac1f374bc16e50438f8941f0f3a8fe6, type: 2}
   m_IsPrefabAsset: 0
@@ -22351,7 +22356,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd33d0be4baeaa841845193b1c7eb906, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelToLoad: FallenLevelScene
+  levelToLoad: 
 --- !u!1001 &1043639171
 Prefab:
   m_ObjectHideFlags: 0
@@ -22550,7 +22555,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 259225180}
   smoothSpeed: 0.125
-  offset: {x: 5, y: 2, z: -10}
+  offset: {x: 2, y: 0, z: 2}
 --- !u!1001 &1136875858
 Prefab:
   m_ObjectHideFlags: 0
