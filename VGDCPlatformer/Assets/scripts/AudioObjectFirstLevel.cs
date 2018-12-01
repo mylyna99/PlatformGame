@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioObject : MonoBehaviour {
+public class AudioObjectFirstLevel : MonoBehaviour {
 
-    public AudioClip MusicClip;
+    public AudioClip MusicClipFirstLevel;
 
-    public AudioSource MusicSource;
+    public AudioSource MusicSourceFirstLevel;
 	// Use this for initialization
 	void Start () {
-        MusicSource.clip = MusicClip;
-        MusicSource.Play(0);
+        MusicSourceFirstLevel.clip = MusicClipFirstLevel;
+        MusicSourceFirstLevel.Play(0);
 	}
 	
 	// Update is called once per frame
