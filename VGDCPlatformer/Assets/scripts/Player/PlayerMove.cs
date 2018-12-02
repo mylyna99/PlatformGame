@@ -111,7 +111,7 @@ public class PlayerMove : MonoBehaviour {
         {
             skip = false;
         }
-
+        
         controller.Move(runSpeed * Time.fixedDeltaTime, jump, slide, duck, missed, temp);
 
         jump = false;

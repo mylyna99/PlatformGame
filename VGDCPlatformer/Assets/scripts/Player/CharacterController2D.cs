@@ -33,6 +33,8 @@ public class CharacterController2D : MonoBehaviour {
     {
         m_RigidBody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        print(animator); 
+
         health = GetComponent<PlayerHealth>();
     }
 
@@ -67,10 +69,20 @@ public class CharacterController2D : MonoBehaviour {
             print("Jump On Beat? " + on_beat);
         }
 
-        if (duck && !on_beat)
+        if (duck)
         {
-            //health.TakeDamage();
-            print("Duck On Beat? " + on_beat);
+            print("i am ducking");
+            animator.SetBool("ducking", true);
+
+            if (!on_beat)
+            {
+                //health.TakeDamage();
+                print("Duck On Beat? " + on_beat);
+            }
+        }
+        else
+        {
+            animator.SetBool("ducking", false);
         }
 
         if (slide && !m_WasSliding && !on_beat)
@@ -79,6 +91,8 @@ public class CharacterController2D : MonoBehaviour {
             m_WasSliding = true;
             print("Starting slide");
             print("Start slide on beat? " + on_beat);
+
+            animator.SetBool("sliding", true);
         }
 
         if (m_WasSliding && !slide && !on_beat)
@@ -87,6 +101,8 @@ public class CharacterController2D : MonoBehaviour {
             m_WasSliding = false;
             print("Stop slide");
             print("End slide on beat? " + on_beat);
+
+            animator.SetBool("sliding", false);
         }
 
         if (m_Grounded || m_AirControl)
@@ -109,6 +125,7 @@ public class CharacterController2D : MonoBehaviour {
             }
             else
             {
+                print("not running ");
                 animator.SetBool("running", false);
             }
 
