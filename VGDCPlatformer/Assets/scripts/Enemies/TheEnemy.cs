@@ -26,6 +26,7 @@ public class TheEnemy : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+        gameObject.transform.position = new Vector2(player.transform.position.x - 2 * health.startHealth, (float)(player.transform.position.y + 0.15));
         Vector3 targetVelocity = new Vector2(movSpeed * Time.fixedDeltaTime * 10f, m_RigidBody2D.velocity.y);
         m_RigidBody2D.velocity = targetVelocity;
     }
