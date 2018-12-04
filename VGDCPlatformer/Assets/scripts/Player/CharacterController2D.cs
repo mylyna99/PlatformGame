@@ -59,12 +59,12 @@ public class CharacterController2D : MonoBehaviour {
     {
         if (missed)
         {
-            health.TakeDamage();
+           // health.TakeDamage();
         }
 
         if (jump && !on_beat)
         {
-            health.TakeDamage();
+           // health.TakeDamage();
             print("Jump On Beat? " + on_beat);
         }
 
@@ -75,7 +75,7 @@ public class CharacterController2D : MonoBehaviour {
 
             if (!on_beat)
             {
-                health.TakeDamage();
+                //health.TakeDamage();
                 print("Duck On Beat? " + on_beat);
             }
         }
@@ -86,7 +86,7 @@ public class CharacterController2D : MonoBehaviour {
 
         if (slide && !m_WasSliding && !on_beat)
         {
-            health.TakeDamage();
+           // health.TakeDamage();
             m_WasSliding = true;
             print("Starting slide");
             print("Start slide on beat? " + on_beat);
@@ -96,7 +96,7 @@ public class CharacterController2D : MonoBehaviour {
 
         if (m_WasSliding && !slide && !on_beat)
         {
-            health.TakeDamage();
+           // health.TakeDamage();
             m_WasSliding = false;
             print("Stop slide");
             print("End slide on beat? " + on_beat);
