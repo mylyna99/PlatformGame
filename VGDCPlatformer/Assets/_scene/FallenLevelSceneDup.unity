@@ -89857,6 +89857,21 @@ Prefab:
       propertyPath: game_over_controller
       value: 
       objectReference: {fileID: 726249337}
+    - target: {fileID: 114598255629644578, guid: 68b7a246b892b8f4c853e1a3218dadee,
+        type: 2}
+      propertyPath: m_JumpForce
+      value: 220
+      objectReference: {fileID: 0}
+    - target: {fileID: 114598255629644578, guid: 68b7a246b892b8f4c853e1a3218dadee,
+        type: 2}
+      propertyPath: m_FallGravity
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114598255629644578, guid: 68b7a246b892b8f4c853e1a3218dadee,
+        type: 2}
+      propertyPath: m_MovementSmoothing
+      value: 0.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68b7a246b892b8f4c853e1a3218dadee, type: 2}
   m_IsPrefabAsset: 0
