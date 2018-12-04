@@ -16,6 +16,11 @@ public class AudioObject : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		if (MusicSource.time > 57.5)
+		{
+			MusicSource.stop()
+		}
 		
 	}
 }
