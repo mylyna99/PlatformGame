@@ -12,12 +12,16 @@ public class TheEnemy : MonoBehaviour {
     public GameObject player;
     [HideInInspector] public Rigidbody2D m_RigidBody2D;
     private PlayerHealth health;
+    private Animator animator;
 
     private void Start()
     {
         health = player.GetComponent<PlayerHealth>();
         m_RigidBody2D = gameObject.GetComponent<Rigidbody2D>();
-        gameObject.transform.position = new Vector2(player.transform.position.x - 2*health.startHealth, player.transform.position.y);
+        gameObject.transform.position = new Vector2(player.transform.position.x - 2*health.startHealth, (float)(player.transform.position.y+0.15));
+
+        animator = gameObject.GetComponent<Animator>();
+        animator.SetBool("running", true);
     }
 
     // Update is called once per frame
