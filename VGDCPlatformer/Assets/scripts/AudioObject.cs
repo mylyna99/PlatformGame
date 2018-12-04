@@ -19,7 +19,7 @@ public class AudioObject : MonoBehaviour {
 
 		if (MusicSource.time > 57.5)
 		{
-			MusicSource.stop()
+			MusicSource.Stop();
 		}
 		
 	}
